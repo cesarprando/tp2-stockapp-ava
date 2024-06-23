@@ -32,5 +32,12 @@ namespace StockApp.API.Controllers
             }
             return Ok(product);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> Create(Product product)
+        {
+            await _productRepository.Create(product);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+        }
     }
 }

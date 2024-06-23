@@ -11,6 +11,7 @@ internal class Program
         builder.Services.AddInfrastructureAPI(builder.Configuration);
         builder.Services.AddControllers();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 

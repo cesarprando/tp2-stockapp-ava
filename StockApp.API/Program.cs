@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Repositories;
 using StockApp.Infra.IoC;
@@ -42,6 +43,31 @@ internal class Program
                 ValidAudience = builder.Configuration["Jwt:SuaAudience"],
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
+        });
+
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "StockApp API", Version = "v1" });
+            var securitySchema = new OpenApiSecurityScheme
+            {
+                Description = "Authorization: Bearer {token}",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            };
+            c.AddSecurityDefinition("Bearer", securitySchema);
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
+                { securitySchema, new [] { "Bearer" } }
+            };
+            c.AddSecurityRequirement(securityRequirement);
         });
 
         var app = builder.Build();

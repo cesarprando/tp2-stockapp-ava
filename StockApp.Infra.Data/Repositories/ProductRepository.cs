@@ -30,11 +30,14 @@ namespace StockApp.Infra.Data.Repositories
             return await _productContext.Products.ToListAsync();
         }
 
-        public async Task<Product> Remove(Product product)
+        public async Task Remove(int id)
         {
-            _productContext.Remove(product);
-            await _productContext.SaveChangesAsync();
-            return product;
+            var product = await _productContext.Products.FindAsync(id);
+            if (product is not null)
+            {
+                _productContext.Products.Remove(product);
+                await _productContext.SaveChangesAsync();
+            }
         }
 
         public async Task<Product> Update(Product product)

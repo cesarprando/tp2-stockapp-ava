@@ -3,11 +3,6 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockApp.Application.Services
 {
@@ -43,7 +38,7 @@ namespace StockApp.Application.Services
         public async Task Remove(int? id)
         {
             var productEntity = _productRepository.GetById(id).Result;
-            await _productRepository.Remove(productEntity);
+            await _productRepository.Remove(id.GetValueOrDefault());
         }
 
         public async Task Update(ProductDTO productDto)

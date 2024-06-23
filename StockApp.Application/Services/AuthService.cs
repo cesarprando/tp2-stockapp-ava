@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Interfaces;
+using StockApp.Domain.Validation;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -25,7 +26,7 @@ namespace StockApp.Application.Services
             var user = await _userRepository.GetByUsernameAsync(username);
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
-                return null;
+                throw new AuthenticationException("Invalid username and/or password.");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();

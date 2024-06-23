@@ -53,5 +53,16 @@ namespace StockApp.API.Controllers
             await _productRepository.Update(product);
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productRepository.GetById(id);
+            if (product is null)
+                return NotFound();
+
+            await _productRepository.Remove(id);
+            return NoContent();
+        }
     }
 }

@@ -7,7 +7,7 @@ using StockApp.Domain.Interfaces;
 
 namespace StockApp.Domain.Test
 {
-    public class UnitTest
+    public class AuthServiceTest
     {
         [Fact]
         public async Task AuthenticateAsync_ValidCredentials_ReturnsToken()

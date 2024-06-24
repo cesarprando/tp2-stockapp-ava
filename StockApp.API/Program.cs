@@ -77,6 +77,16 @@ internal class Program
             c.AddSecurityRequirement(securityRequirement);
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+        });
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -86,6 +96,7 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors("AllowAll");
         app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();

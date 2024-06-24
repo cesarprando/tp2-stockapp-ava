@@ -64,5 +64,12 @@ namespace StockApp.API.Controllers
             await _productRepository.Remove(id);
             return NoContent();
         }
+
+        [HttpGet("low-stock")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetLowStock([FromQuery] int threshold)
+        {
+            var products = await _productRepository.GetLowStockAsync(threshold);
+            return Ok(products);
+        }
     }
 }

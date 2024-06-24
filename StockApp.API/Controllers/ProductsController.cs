@@ -71,5 +71,12 @@ namespace StockApp.API.Controllers
             var products = await _productRepository.GetLowStockAsync(threshold);
             return Ok(products);
         }
+
+        [HttpPut("bulk-update")]
+        public async Task<IActionResult> BulkUpdate([FromBody] IEnumerable<Product> products)
+        {
+            await _productRepository.BulkUpdateAsync(products);
+            return NoContent();
+        }
     }
 }

@@ -56,5 +56,11 @@ namespace StockApp.Infra.Data.Repositories
                 .Where(propa => propa.Stock < threshold)
                 .ToListAsync();
         }
+
+        public async Task BulkUpdateAsync(IEnumerable<Product> products)
+        {
+            _productContext.Products.UpdateRange(products);
+            await _productContext.SaveChangesAsync();
+        }
     }
 }

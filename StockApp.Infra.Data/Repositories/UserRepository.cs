@@ -30,5 +30,12 @@ namespace StockApp.Infra.Data.Repositories
         {
             return await _context.Users.FindAsync(id);
         }
+
+        public async Task SetOtpAsync(int userId, string otp)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            user!.Otp = otp;
+            await _context.SaveChangesAsync();
+        }
     }
 }

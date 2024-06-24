@@ -94,6 +94,11 @@ internal class Program
             });
         });
 
+        builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = builder.Configuration.GetConnectionString("Redis");
+        });
+
         var app = builder.Build();
 
         app.UseSerilogRequestLogging();

@@ -7,7 +7,8 @@ namespace StockApp.Infra.Data.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        ApplicationDbContext _productContext;
+        private readonly ApplicationDbContext _productContext;
+
         public ProductRepository(ApplicationDbContext context)
         {
             _productContext = context;

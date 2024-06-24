@@ -113,6 +113,8 @@ internal class Program
 
         app.UseCors("AllowAll");
         app.UseMiddleware<ErrorHandlerMiddleware>();
+        app.UseStaticFiles();
+        app.UseDirectoryBrowser();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();

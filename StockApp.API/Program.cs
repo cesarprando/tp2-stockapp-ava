@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using StockApp.API.Middlewares;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Services;
@@ -14,6 +15,12 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateLogger();
+
+        builder.Host.UseSerilog();
 
         builder.Services.AddInfrastructureAPI(builder.Configuration);
         builder.Services.AddControllers();
@@ -88,6 +95,8 @@ internal class Program
         });
 
         var app = builder.Build();
+
+        app.UseSerilogRequestLogging();
 
         if (app.Environment.IsDevelopment())
         {

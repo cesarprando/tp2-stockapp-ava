@@ -29,7 +29,7 @@ internal class Program
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IMfaService, MfaService>();
-
+        builder.Services.AddScoped<IInventoryService, InventoryService>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using System.Text;
@@ -10,10 +11,15 @@ namespace StockApp.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+        private readonly IInventoryService _inventoryService;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(
+            IProductRepository productRepository,
+            IInventoryService inventoryService
+        )
         {
             _productRepository = productRepository;
+            _inventoryService = inventoryService;
         }
 
         [HttpGet]
@@ -94,6 +100,13 @@ namespace StockApp.API.Controllers
             }
 
             return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "products.csv");
+        }
+
+        [HttpPost("replenish-stock")]
+        public async Task<IActionResult> ReplenishStock()
+        {
+            await _inventoryService.ReplenishStockAsync();
+            return Ok();
         }
     }
 }

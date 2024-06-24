@@ -1,7 +1,7 @@
-﻿using StockApp.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
 
 namespace StockApp.Infra.Data.Repositories
 {
@@ -25,9 +25,12 @@ namespace StockApp.Infra.Data.Repositories
             return await _productContext.Products.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts(int pageNumber, int pageSize)
         {
-            return await _productContext.Products.ToListAsync();
+            return await _productContext.Products
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task Remove(int id)

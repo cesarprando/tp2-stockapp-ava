@@ -16,9 +16,9 @@ namespace StockApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var products = await _productRepository.GetProducts();
+            var products = await _productRepository.GetProducts(pageNumber, pageSize);
             return Ok(products);
         }
 

@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StockApp.API.Middlewares;
+using StockApp.Application.Interfaces;
+using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Repositories;
 using StockApp.Infra.IoC;
@@ -14,8 +17,12 @@ internal class Program
 
         builder.Services.AddInfrastructureAPI(builder.Configuration);
         builder.Services.AddControllers();
+
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -79,6 +86,7 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();

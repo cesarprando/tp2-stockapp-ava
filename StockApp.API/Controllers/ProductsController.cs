@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
+using System.Text;
 
 namespace StockApp.API.Controllers
 {
@@ -77,6 +78,22 @@ namespace StockApp.API.Controllers
         {
             await _productRepository.BulkUpdateAsync(products);
             return NoContent();
+        }
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportToCsv()
+        {
+            var products = await _productRepository.GetAll();
+
+            var csv = new StringBuilder()
+                .AppendLine("Id,Name,Description,Price,Stock");
+
+            foreach (var product in products)
+            {
+                csv.AppendLine($"{product.Id},{product.Name},{product.Description},{product.Price},{product.Stock}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "products.csv");
         }
     }
 }

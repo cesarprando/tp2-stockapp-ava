@@ -108,5 +108,23 @@ namespace StockApp.API.Controllers
             await _inventoryService.ReplenishStockAsync();
             return Ok();
         }
+
+        [HttpPost("{id}/upload-image")]
+        public async Task<IActionResult> UploadImage(int id, IFormFile image)
+        {
+            if ((image?.Length).GetValueOrDefault() == 0)
+            {
+                return BadRequest("Invalid image.");
+            }
+
+            var filePath = Path.Combine("wwwroot/images", $"{id}.jpg");
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            return Ok();
+        }
     }
 }

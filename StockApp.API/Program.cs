@@ -27,6 +27,7 @@ internal class Program
 
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IMfaService, MfaService>();
         builder.Services.AddScoped<IInventoryService, InventoryService>();
